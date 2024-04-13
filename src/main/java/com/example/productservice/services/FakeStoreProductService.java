@@ -1,9 +1,11 @@
 package com.example.productservice.services;
 
 import com.example.productservice.dtos.FakeStoreProductDto;
+import com.example.productservice.dtos.ProductRequestDto;
 import com.example.productservice.models.Category;
 import com.example.productservice.models.Product;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpMessageConverterExtractor;
 import org.springframework.web.client.RequestCallback;
@@ -84,12 +86,21 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
-    public Product replaceProduct(Long id, Product product) {
+    public Product replaceProduct(Long id, ProductRequestDto productRequestDto) {
         // PUT method
         // Replace the product with given id with the input product
         // and return the updated product in the output
 
-        RequestCallback requestCallback = restTemplate.httpEntityCallback(product, FakeStoreProductDto.class);
+        // Convert the input into the right request parameter as per the requirement
+        FakeStoreProductDto rightRequestFakeStoreProductDto = new FakeStoreProductDto();
+        rightRequestFakeStoreProductDto.setTitle(productRequestDto.getTitle());
+        rightRequestFakeStoreProductDto.setPrice(productRequestDto.getPrice());
+        rightRequestFakeStoreProductDto.setImage(productRequestDto.getImage());
+        rightRequestFakeStoreProductDto.setDescription(productRequestDto.getDescription());
+        rightRequestFakeStoreProductDto.setId(id);
+        rightRequestFakeStoreProductDto.setCategory(productRequestDto.getCategory());
+
+        RequestCallback requestCallback = restTemplate.httpEntityCallback(rightRequestFakeStoreProductDto, FakeStoreProductDto.class);
         HttpMessageConverterExtractor<FakeStoreProductDto> responseExtractor = new HttpMessageConverterExtractor(FakeStoreProductDto.class,
                 restTemplate.getMessageConverters());
         FakeStoreProductDto fakeStoreProductDto =
