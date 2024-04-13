@@ -63,7 +63,7 @@ public class FakeStoreProductService implements ProductService {
         * */
 
         if (fakeStoreProductDto == null) {
-            throw new InvalidProductIdException("Invalid product id passed");
+            throw new InvalidProductIdException(id, "Invalid product id passed");
         }
         // convert fakeStoreProductDto to product object
         return convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
