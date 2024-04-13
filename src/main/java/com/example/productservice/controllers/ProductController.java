@@ -1,6 +1,8 @@
 package com.example.productservice.controllers;
 
 import com.example.productservice.dtos.ProductRequestDto;
+import com.example.productservice.exceptions.InvalidProductIdException;
+import com.example.productservice.exceptions.ProductControllerSpecificExceptions;
 import com.example.productservice.models.Product;
 import com.example.productservice.services.ProductService;
 import org.springframework.http.HttpStatus;
@@ -33,9 +35,22 @@ public class ProductController {
 
     // localhost:8080/products/10
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) {
+    public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) throws InvalidProductIdException {
+        /* Product product = null;
+        try {
+            product = productService.getProductById(id);
+        } catch (RuntimeException e) {
+            System.out.println("Something went wrong");
+            return new ResponseEntity<>(product, HttpStatus.NOT_FOUND);
+        }*/
+
+        // It should not be controllers responsibility to handle exceptions
+        // Controller should just take request and give response
+        // The above should be done elsewhere.
+        // Controller Advice
+        // int a = 2/0;
         Product product = productService.getProductById(id);
-        return new ResponseEntity<>(product, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     // localhost:8080/products
@@ -64,5 +79,15 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable("id") Long id) {
 
+    }
+
+    /* This exception handler will only be trigger if this type of exception is thrown only from this controller
+    Lets say if there is order controller which is throwing this exception as well
+    this method will not be triggered
+    this is how you can define controller specific exception handlers
+    */
+    @ExceptionHandler(ProductControllerSpecificExceptions.class)
+    public ResponseEntity<Void> handleProductControllerSpecificException() {
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

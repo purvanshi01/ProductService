@@ -2,6 +2,7 @@ package com.example.productservice.services;
 
 import com.example.productservice.dtos.FakeStoreProductDto;
 import com.example.productservice.dtos.ProductRequestDto;
+import com.example.productservice.exceptions.InvalidProductIdException;
 import com.example.productservice.models.Category;
 import com.example.productservice.models.Product;
 import org.springframework.http.HttpMethod;
@@ -38,7 +39,7 @@ public class FakeStoreProductService implements ProductService {
         return product;
     }
     @Override
-    public Product getProductById(Long id) {
+    public Product getProductById(Long id) throws InvalidProductIdException {
         // call the fake store api to get the product
         // this is not the good way of creating object of RestTemplate because you will need it
         // many places why to create it again and again
@@ -61,8 +62,9 @@ public class FakeStoreProductService implements ProductService {
         * we can create a dto now
         * */
 
-        if (fakeStoreProductDto == null)
-            return null;
+        if (fakeStoreProductDto == null) {
+            throw new InvalidProductIdException("Invalid product id passed");
+        }
         // convert fakeStoreProductDto to product object
         return convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
     }
