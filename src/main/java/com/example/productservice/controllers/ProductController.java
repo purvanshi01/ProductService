@@ -5,6 +5,7 @@ import com.example.productservice.exceptions.InvalidProductIdException;
 import com.example.productservice.exceptions.ProductControllerSpecificExceptions;
 import com.example.productservice.models.Product;
 import com.example.productservice.services.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class ProductController {
     // therefore you have to give @service annotation on ProductService
     // when you do @service annotation so when the spring application will start
     // spring will create the objects of all the classes that you have asked spring to create
-    ProductController (ProductService productService) {
+    ProductController (@Qualifier("selfProductServiceePurvi") ProductService productService) {
         this.productService = productService;
     }
 
@@ -61,7 +62,8 @@ public class ProductController {
 
     @PostMapping
     public Product createProduct(@RequestBody Product product) {
-        return new Product();
+        return productService.createProduct(product);
+        // return new Product();
     }
 
     //  Partial update

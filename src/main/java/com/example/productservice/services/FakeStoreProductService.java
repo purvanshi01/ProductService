@@ -5,6 +5,7 @@ import com.example.productservice.dtos.ProductRequestDto;
 import com.example.productservice.exceptions.InvalidProductIdException;
 import com.example.productservice.models.Category;
 import com.example.productservice.models.Product;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-@Service
+@Service("fakeStoreProductServicePurvi")
+//@Primary
 public class FakeStoreProductService implements ProductService {
     private RestTemplate restTemplate;
 
@@ -113,7 +115,7 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
-    public Product createProduct() {
+    public Product createProduct(Product product) {
         return null;
     }
 

@@ -19,7 +19,7 @@ public interface ProductService {
      * in the FakeStoreProductService class*/
     Product replaceProduct(Long id, ProductRequestDto productRequestDto);
 
-    Product createProduct();
+    Product createProduct(Product product);
 
     void deleteProduct();
 }
