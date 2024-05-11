@@ -10,7 +10,7 @@ public interface ProductService {
     public Product getProductById (Long id) throws InvalidProductIdException;
     List<Product> getAllProducts();
 
-    Product updateProduct();
+    Product updateProduct(Long id, Product product);
 
     /* the input is something like category is also a string and it does not directly can be converted to
      * product so either we accept the parameter as FakeStoreProductDto which is not right because

@@ -41,8 +41,27 @@ public class SelfProductService implements  ProductService{
     }
 
     @Override
-    public Product updateProduct() {
-        return null;
+    public Product updateProduct(Long id, Product product) {
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if (optionalProduct.isEmpty()) {
+            throw new RuntimeException();
+        }
+        if (product == null) throw new RuntimeException("Invalid input exception to update method");
+        Product currentProduct = optionalProduct.get();
+
+        if (product.getTitle() != null) {
+            currentProduct.setTitle(product.getTitle());
+        }
+
+        if (product.getDescription() != null) {
+            currentProduct.setDescription(product.getDescription());
+        }
+
+        /*if (product.getPrice() != null) {
+            currentProduct.setPrice(product.getPrice());
+        }*/
+
+        return productRepository.save(currentProduct);
     }
 
     @Override
@@ -53,11 +72,17 @@ public class SelfProductService implements  ProductService{
     @Override
     public Product createProduct(Product product) {
         Category category = product.getCategory();
-        if (category.getId() == null) {
+        /*if (category.getId() == null) {
             // first save category in the db
             Category savedCategory = categoryRepository.save(category);
             product.setCategory(savedCategory);
         }
+        we have commented this code because in the product model we are using
+         @ManyToOne(cascade = {CascadeType.ALL})
+         which means if we save the product the category would be saved if the payload has data
+         if we delete the product then the category will also be deleted etc
+         so this piece of code is not required then and hence commenting.
+        */
         return productRepository.save(product);
     }
 
