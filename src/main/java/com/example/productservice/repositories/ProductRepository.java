@@ -35,11 +35,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     /* @Query("select p from Product p where p.id = 1")
     List<Product> someQuery();*/
 
-    @Query("select p.id as id,p.title as title from Product p where p.id = 1")
+    @Query("select p.id as id,p.title as title from Product p where p.id = 2")
     List<ProductWithIdAndTitle> someQuery();
 
     // How many database calls is the below query making -> 2
     // first select the product object and then fetching the category object
-    @Query(value = "select * from product p where p.id = 1", nativeQuery = true)
+    @Query(value = "select * from product p where p.id = 2", nativeQuery = true)
     Product doSomethingSQL();
 }

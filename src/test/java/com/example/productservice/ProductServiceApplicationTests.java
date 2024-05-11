@@ -1,6 +1,8 @@
 package com.example.productservice;
 
+import com.example.productservice.models.Category;
 import com.example.productservice.models.Product;
+import com.example.productservice.repositories.CategoryRepository;
 import com.example.productservice.repositories.ProductRepository;
 import com.example.productservice.repositories.projections.ProductWithIdAndTitle;
 import org.junit.jupiter.api.Test;
@@ -15,6 +17,9 @@ class ProductServiceApplicationTests {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Test
     void contextLoads() {
@@ -42,6 +47,17 @@ class ProductServiceApplicationTests {
         if(product2.isPresent()) {
             product3 = product2.get();
         }
+
+        System.out.println("DEBUG");
+
+        // categoryRepository.deleteById(1L);
+
+        Optional<Category> optionalCategory = categoryRepository.findById(2L);
+        Category category = optionalCategory.get();
+
+        System.out.println("Fetched Category");
+
+        List<Product> productsnow = category.getProducts();
 
         System.out.println("DEBUG");
     }
