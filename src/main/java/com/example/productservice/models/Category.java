@@ -21,7 +21,7 @@ public class Category extends BaseModel {
     * for hibernate to know this what we have is a annotation by jpa called mappedBy
     * whatever name of the attribute is there in the product table for category that we will have
     * here, like Category category then we will use here category*/
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "category", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE)
     private List<Product> products; //  lazy fetch by default
 
     /*the above lines mean that if we are removing the category then remove all the associated products as well*/
